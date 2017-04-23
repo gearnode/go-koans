@@ -6,6 +6,8 @@ package koans_test
 import(
   "fmt" //
   "testing" // testing package : https://golang.org/pkg/testing/
+
+  "strings" // simple functions to manipulate UTF-8 encoded strings.
 )
 
 // All test must be start with TestXxx(*testing.T)
@@ -139,3 +141,76 @@ func TestBasic(t *testing.T) {
   Assert(t, c.x == 0)
 }
 
+// String
+func TestString(t *testing.T) {
+  Assert(t, "a" + "bc" == "abc")
+  Assert(t, len("abc") == 3)
+
+  Assert(t, "abc"[0] == 'a') // like C (char != char*)
+
+  // Operation
+  Assert(t, "gearnode"[:2] == "ge")
+  Assert(t, "gearnode"[2:] == "arnode")
+  Assert(t, "gearnode"[2:4] == "ar")
+  Assert(t, "gearnode"[:] == "gearnode")
+
+  Assert(t, "gearnode" == "gearnode")
+  Assert(t, "a" < "b")
+  Assert(t, "1" < "2")
+
+  bytes := []byte{'a', 'b', 'c'}
+  Assert(t, string(bytes) == "abc")
+
+  bytes[0] = 'q'
+  Assert(t, bytes[0] == 'q')
+  Assert(t, string(bytes) == "qbc")
+
+  // Compare
+  Assert(t, strings.Compare("a", "a") == 0)
+  Assert(t, strings.Compare("a", "b") == -1)
+  Assert(t, strings.Compare("b", "a") == 1)
+
+  Compare := func(s1,s2 string) int {
+    if s1 == s2 { return 0 }
+    if s1 < s2 { return -1 }
+    return 1
+  }
+
+  Assert(t, strings.Compare("a", "a") == Compare("a", "a"))
+  Assert(t, strings.Compare("a", "b") == Compare("a", "b"))
+  Assert(t, strings.Compare("b", "a") == Compare("b", "a"))
+
+  // Contains
+  Assert(t, strings.Contains("gearnode", "node") == true)
+  Assert(t, strings.Contains("gearnode", "") == true)
+  Assert(t, strings.Contains("gearnode", "b") == false)
+  Assert(t, strings.Contains("", "") == true)
+
+  // ContainsAny
+  Assert(t, strings.ContainsAny("", "") == false)
+  Assert(t, strings.ContainsAny("gearnode", "") == false)
+  Assert(t, strings.ContainsAny("gearnode", "g 89 y") == true)
+  Assert(t, strings.ContainsAny("gearnode", "z") == false)
+
+  // ContainsRune
+  Assert(t, strings.ContainsRune("gearnode", 'g') == true)
+  Assert(t, strings.ContainsRune("hel⌘", '⌘') == true)
+
+  // Count
+  Assert(t, strings.Count("gearnode", "") == 9)
+  Assert(t, strings.Count("gearnode", "z") == 0)
+  Assert(t, strings.Count("gearnode", "e") == 2)
+
+  // EqualFold
+  Assert(t, strings.EqualFold("Go", "go") == true)
+
+  // HasPrefix
+  Assert(t, strings.HasPrefix("gearnode", "ge") == true)
+  Assert(t, strings.HasPrefix("gearnode", "node") == false)
+  Assert(t, strings.HasPrefix("gearnode", "") == true)
+
+  // HasSuffix
+  Assert(t, strings.HasSuffix("gearnode", "node") == true)
+  Assert(t, strings.HasSuffix("gearnode", "gear") == false)
+  Assert(t, strings.HasSuffix("gearnode", "") == true)
+}
