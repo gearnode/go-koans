@@ -114,3 +114,28 @@ func TestPointer(t *testing.T) {
     Assert(t, add(1, 1) == 0)
   }
 }
+
+// Basic
+func TestBasic(t *testing.T) {
+  Assert(t, true == true)
+  Assert(t, true != false)
+
+  var i int = 1
+  Assert(t, i == 1.0000000000000000000000000000000000000)
+
+  Assert(t, 5%2 == 1)
+  Assert(t, 7*2 == 14)
+
+  var x int
+  Assert(t, x == 0)
+
+  var f float32
+  Assert(t, f == 0.0)
+
+  var s string
+  Assert(t, s == "")
+
+  var c struct { x int }
+  Assert(t, c.x == 0)
+}
+
