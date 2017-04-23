@@ -24,8 +24,16 @@ func BenchmarkHello(b *testing.B) {
   }
 }
 
-// Pointer
+// Little helper to write test
+func Assert(t *testing.T, assertation bool) {
+  if assertation {
+    fmt.Println("*")
+  } else {
+    t.FailNow()
+  }
+}
 
+// Pointer
 // Notes
 // Go have pointer but go has no pointer arithmetic :(
 
@@ -40,25 +48,19 @@ func TestPointer(t *testing.T) {
 
     y++
 
-    if x == y {
-      t.FailNow()
-    }
+    Assert(t, x != y)
   }
   {
     x := 3
     y := &x // use & to access to adress of a pointer
 
-    if *y != 3 {
-      t.FailNow()
-    }
+    Assert(t, *y == 3)
 
     // y is a pointer of x
     // Use * symbol to de-referencing
     *y = *y + 2
 
-    if x != 5 {
-      t.FailNow()
-    }
+    Assert(t, x == 5)
   }
   {
     incr := func(i int) int {
@@ -69,9 +71,7 @@ func TestPointer(t *testing.T) {
     x := 1
     incr(x)
 
-    if x != 1 {
-      t.FailNow()
-    }
+    Assert(t, x == 1)
   }
   {
     incr := func(i *int) *int {
@@ -81,9 +81,8 @@ func TestPointer(t *testing.T) {
 
     x := 1
     incr(&x)
-    if x != 2 {
-      t.FailNow()
-    }
+
+    Assert(t, x == 2)
   }
   {
     x := 1
@@ -91,18 +90,11 @@ func TestPointer(t *testing.T) {
     pp := &p
     cp := **pp
 
-    if **pp != x {
-      t.FailNow()
-    }
+    Assert(t, **pp == x)
 
+    // Modify value of x
     **pp = 4
-    if x != 4 {
-      t.FailNow()
-    }
-
-    if cp != 1 {
-      t.FailNow()
-    }
+    Assert(t, x == 4)
+    Assert(t, cp == 1)
   }
-
 }
