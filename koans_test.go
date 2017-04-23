@@ -9,6 +9,7 @@ import(
 
   "strings" // simple functions to manipulate UTF-8 encoded strings.
   "os" // platform-independent interface to operating system functionality
+  "strconv" // implements conversions to and from string representations of basic data types
 )
 
 // All test must be start with TestXxx(*testing.T)
@@ -222,3 +223,17 @@ func TestEvironmentVariables(t *testing.T) {
   Assert(t, os.Getenv("FOO") == "BAR")
 }
 
+func TestFizzBuzz(t *testing.T) {
+  FizzBuzz := func(i int) string {
+    if i % 3 == 0 && i % 5 == 0 { return "fizzbuz" }
+    if i % 3 == 0 { return "fizz" }
+    if i % 5 == 0 { return "buzz" }
+    return strconv.Itoa(i)
+  }
+
+  Assert(t, FizzBuzz(1) == "1")
+  Assert(t, FizzBuzz(2) == "2")
+  Assert(t, FizzBuzz(3) == "fizz")
+  Assert(t, FizzBuzz(4) == "4")
+  Assert(t, FizzBuzz(5) == "buzz")
+}
