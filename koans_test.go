@@ -8,6 +8,7 @@ import(
   "testing" // testing package : https://golang.org/pkg/testing/
 
   "strings" // simple functions to manipulate UTF-8 encoded strings.
+  "os" // platform-independent interface to operating system functionality
 )
 
 // All test must be start with TestXxx(*testing.T)
@@ -214,3 +215,10 @@ func TestString(t *testing.T) {
   Assert(t, strings.HasSuffix("gearnode", "gear") == false)
   Assert(t, strings.HasSuffix("gearnode", "") == true)
 }
+
+func TestEvironmentVariables(t *testing.T) {
+
+  os.Setenv("FOO", "BAR")
+  Assert(t, os.Getenv("FOO") == "BAR")
+}
+
