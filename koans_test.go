@@ -14,7 +14,6 @@ func TestSample(t *testing.T) {
 
   t.Skip("skipping test message") // To skip a test
 }
-
 // Benchmarks
 // The benchmarks func must use this pattern
 // func BenchmarkXxx(*testing.B)
@@ -96,5 +95,22 @@ func TestPointer(t *testing.T) {
     **pp = 4
     Assert(t, x == 4)
     Assert(t, cp == 1)
+  }
+  {
+    add := func(x,y int) int {
+      return x + y
+    }
+
+    Assert(t, add(1,1) == 2)
+
+    padd := &add
+    fn := *padd
+    Assert(t, fn(1,1) == 2)
+
+    *padd = func(x,y int) int {
+      return x - y
+    }
+
+    Assert(t, add(1, 1) == 0)
   }
 }
